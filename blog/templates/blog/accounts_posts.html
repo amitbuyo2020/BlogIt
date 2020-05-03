@@ -1,0 +1,54 @@
+{% extends 'index.html' %}
+{% block content %}
+    <br><br>
+    <fieldset>
+    <legend class="mb-3"><b>Posts by {{view.kwargs.email}} ({{page_obj.paginator.count}})</b></legend><hr/>
+    {% for post in posts %}
+       <article class="media content-section">
+
+          <div class="media-body">
+            <img class="rounded-circle account-img" src="{{post.author.profile.image.url}}" width="80" height="80">
+            <div class="article-metadata">
+            <h5><a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a></h5>
+              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small><hr/>
+            </div>
+            <h4><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+            <p class="article-content">{{ post.content }}</p>
+            {% if post.video %}
+                <video width='500' controls>
+                    <source src='{{ MEDIA_URL }}{{ post.video }}' type='video/mp4'>
+                    Your browser does not support the video tag.
+                </video>
+                <br><br>
+                  </p>
+                <script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'})</script>
+                <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+            {% endif %}
+            {% if post.image %}
+                <a href="{{post.image.url}}"><img src="{{MEDIA_URL}}{{post.image}}" width="500" height="300"></a>
+            {% endif %}
+          </div>
+        </article>
+    </fieldset>
+    {% endfor %}
+    {% if is_paginated %}
+        {% if page_obj.has_previous %}
+            <a class="btn btn-outline-info mb-4"  href="?page=1">First</a>
+            <a class="btn btn-outline-info mb-4"  href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        {%  for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a class="btn btn-info mb-4"  href="?page={{ num }}">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a class="btn btn-outline-info mb-4"  href="?page={{ num }}">{{num}}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a class="btn btn-outline-info mb-4"  href="?page={{page_obj.next_page_number}}">Next</a>
+            <a class="btn btn-outline-info mb-4"  href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+        {% endif %}
+
+    {% endif %}
+{% endblock %}

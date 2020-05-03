@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<br>
+{% if request.GET.q != '' %}
+    {% if results %}
+        <h3 style=""> Search results for <i>"{{request.GET.q}}"</i></h3><hr/>
+        <div class="container">
+        {% for result in results %}
+            <div class="card mb-4">
+          <div class="card-body">
+            <h2 class="card-title">{{result.title}}</h2>
+            <div class="card-footer text-muted">
+                <img class="rounded-circle account-img" src="{{result.author.profile.image.url}}" width="120" height="120">
+            {{result.author}} | {{result.date_posted}}
+          </div>
+            <p class="card-text">
+              {{result.content |slice:"250"}}...
+            </p>
+            {% if result.video %}
+                <video width='500' controls>
+                    <source src='{{ MEDIA_URL }}{{ post.video }}' type='video/mp4'>
+                    Your browser does not support the video tag.
+                </video>
+                <br><br>
+                  </p>
+                <script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'})</script>
+                <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+            {% endif %}
+            {% if result.image %}
+                <a href="{{result.image.url}}"><img src="{{MEDIA_URL}}{{result.image}}" width="500" height="300"></a>
+            {% endif %}
+
+            <a href="{% url 'post_detail' result.id %}" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+        </div>
+
+        {% endfor %}
+    </div>
+    {% else %}
+        <h4>No search results</h4>
+    {% endif %}
+    <br><br><br>
+<br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br>
+{% endif %}
+{% endblock %}

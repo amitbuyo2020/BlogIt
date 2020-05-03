@@ -1,0 +1,120 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+<main role="main" class="container">
+    <div class="row">
+      <div class="col-md-8">
+        {% if messages %}
+          {% for message in messages%}
+            <div class="alert alert-{{message.tags}}">
+              {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </main>
+  <div class="row">
+
+      <!-- Blog Entries Column -->
+      <div class="col-md-8">
+
+        <!-- Blog Post -->
+        {% for post in posts %}
+        <div class="card mb-4">
+          <div class="card-body">
+            <h2 class="card-title">{{post.title}}</h2>
+            <div class="card-footer text-muted">
+                <img class="rounded-circle account-img" src="{{post.author.profile.image.url}}" width="120" height="120">
+            {{post.author.profile.first_name}} {{post.author.profile.last_name}}  | {{post.date_posted}}
+          </div>
+            <p class="card-text">
+              {{post.content |slice:"250"}}...
+            </p>
+            {% if post.video %}
+                <video width='500' controls>
+                    <source src='{{ MEDIA_URL }}{{ post.video }}' type='video/mp4'>
+                    Your browser does not support the video tag.
+                </video>
+                <br><br>
+                  </p>
+                <script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'})</script>
+                <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+            {% endif %}
+            {% if post.img %}
+                <a href="{{post.img.url}}"><img src="{{MEDIA_URL}}{{post.img}}" width="500" height="300"></a>
+            {% endif %}
+            <br>
+            <a href="{% url 'post_detail' post.id %}" class="btn btn-primary" style="margin: 5px;">Read More &rarr;</a>
+          </div>
+        </div>
+
+        {% endfor %}
+        <!-- Pagination -->
+        <ul class="pagination justify-content-center mb-4">
+          {% if is_paginated %}
+            {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="btn btn-outline-info mb-4"  href="?page={{ page_obj.previous_page_number }}">&larr; Newer Posts</a>
+              </li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item disabled">
+                <a class="btn btn-outline-info mb-4"  href="?page={{page_obj.next_page_number}}">Older Posts &rarr;</a>
+              </li>
+                <a class="btn btn-outline-info mb-4"  href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+            {% endif %}
+
+        {% endif %}
+
+      </div><br>
+
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+        <br>
+        <!-- Search Widget -->
+        <div class="card mb-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <form action="{% url 'searchBar' %}" method="GET" value="{{request.GET.q}}">
+              <input type="text" name="q" value="{{request.GET.q}}" placeholder="Search posts" style="border-radius: 2px; min-width: 300px; margin: 4px;">
+                <button class="btn btn-secondary" type="submit">Go!</button>
+              </form>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Add a new Blog</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                  <a href="{% url 'new-post' %}"><button class="btn btn-secondary" type="button" style="width: 312px;">Add a Blog</button></a>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header"><strong><i>BlogIt!</i></strong></h5>
+          <div class="card-body">
+            <strong><i>BlogIt!</i></strong>  is a platform where users can view blogs, add and update blogs. You can create your own blog and update
+            it as you desire. You can view other user's posts and also comment your views.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+{% endblock %}

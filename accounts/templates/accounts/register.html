@@ -1,0 +1,35 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<div class="container" style="max-width: 400px;">
+	<div class="content-section">
+		<form method="POST">
+			{% csrf_token %}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">Join Today</legend>
+				{{form|crispy}}
+
+			</fieldset>
+			<div class="form-group">
+				<button class="btn btn-outline-info" type="submit">Sign Up</button>
+			</div>
+		</form>
+		<div class="border-top pt-3">
+			<small class="text-muted">
+				Already have an account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+			</small>
+		</div>
+		<script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+		<div class="field">
+            <div class="control">
+                <a href="{% url 'social:begin' 'facebook' %}" class="button">
+                    <span class="icon">
+                        <i class="fas fa-facebook"></i>Facebook
+                    </span>
+                </a>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
