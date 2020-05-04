@@ -4,7 +4,7 @@
 <br>
 <div class="col-md-8" style="max-width: 600px">
     <div class="content-section">
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data" action="{% url 'new-post' %}">
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Post A content</legend>

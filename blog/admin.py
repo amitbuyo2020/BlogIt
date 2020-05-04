@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Post, Announcement, Comment
+from django.contrib.auth.models import Group
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'date_posted')
@@ -18,3 +19,4 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Announcement)
+admin.site.unregister(Group)

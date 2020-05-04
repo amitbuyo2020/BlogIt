@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Post, Announcement
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -7,6 +7,8 @@ from django.db.models import Q
 from django.utils import timezone
 from django.conf import settings
 from .forms import CommentForm
+from django.contrib import messages
+#from actions.utils import create_action
 
 
 User = settings.AUTH_USER_MODEL
@@ -56,20 +58,20 @@ def post_detail(request, pk):
                                            'new_comment': new_comment,
                                            'comment_form': comment_form})
 
-
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    success_url = '/'
-    fields = ['title', 'content','video', 'img']
+
+    fields = ['title', 'content', 'video', 'img', 'docs']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        form.save()
         return super().form_valid(form)
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     success_url = '/'
-    fields = ['title', 'content', 'video', 'img']
+    fields = ['title', 'content', 'video', 'img', 'docs']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -160,4 +162,15 @@ def about(request):
         'title': "About"
     }
     return render(request, 'blog/about.html', context)
+
+#########################################
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), mimetype="application/force-download")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
 

@@ -20,17 +20,18 @@
 				Need an account? <a class="ml-2" href="{% url 'register' %}">Sign Up Now</a>
 			</small>
 		</div>
-		<div>
-			<label>Or Login with facebook</label><br/>
-			<a class="waves-effect waves-light btn" href="{% url 'social:begin' 'facebook' %}">
-				<i class="fab fa-facebook"></i>Facebook
-			</a>
-		</div>
 		<div class="text-additive" >
                 <small>Forgot Password?
                     <a class="link" href="{% url 'password_reset' %}">Reset Password</a>
                 </small>
         </div>
+		<div>
+			<label>Or Login with:</label>
+			<a class="waves-effect waves-light btn" href="{% url 'social:begin' 'facebook' %}">
+				<i class="fas fa-facebook"></i>Facebook
+			</a>
+		</div>
+
 	</div>
-</div>
+</div><br><br>
 {% endblock %}

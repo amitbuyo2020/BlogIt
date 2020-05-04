@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 from django.utils import timezone
 from django.conf import settings
+from django.urls import reverse
 
 User = settings.AUTH_USER_MODEL
 
@@ -20,6 +21,7 @@ class Post(models.Model):
     video = models.FileField(blank=True, null=True, upload_to='videos', verbose_name='Add a video')
     status = models.IntegerField(choices=STATUS, default=0)
     updated_on = models.DateTimeField(auto_now=True)
+    docs = models.FileField(blank=True, upload_to='documents', verbose_name='Add a document')
 
     class Meta:
         ordering = ['-date_posted']
@@ -37,6 +39,7 @@ class Comment(models.Model):
     body = models.TextField(verbose_name='Comment')
     created_on = models.DateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
+
 
     class Meta:
         ordering = ['created_on']

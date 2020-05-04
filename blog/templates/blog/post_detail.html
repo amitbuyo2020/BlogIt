@@ -23,8 +23,8 @@
                 <h4 class="article-title">{{ post.title }}</h4>
                 <p class="article-content">{{ post.content }}</p>
                 {% if post.video %}
-                <video width='400' controls>
-                      <source src='{{ MEDIA_URL }}{{ post.add_video }}' type='video/mp4'>
+                <video width='700' controls>
+                      <source src='{{ MEDIA_URL }}{{ post.video }}' type='video/mp4'>
                       Your browser does not support the video tag.
                     </video>
                     <br><br>
