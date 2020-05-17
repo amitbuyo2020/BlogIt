@@ -30,7 +30,9 @@
             <p class="card-text">
               {{post.content |slice:"250"}}...
             </p>
-            <a href="{{MEDIA_URL}}{{ post.docs }}">Click here to download the file</a>
+            {% if post.docs %}
+              <a href="{{MEDIA_URL}}{{ post.docs }}">Click here to download the file</a>
+            {% endif %}
             {% if post.video %}
                 <video width='700' controls>
                     <source src='{{ MEDIA_URL }}{{ post.video }}' type='video/mp4'>
