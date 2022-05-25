@@ -23,7 +23,7 @@ Pillow==7.1.0
 psycopg2==2.8.5
 pycparser==2.20
 pyee==7.0.1
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyppeteer==0.0.25
 pyquery==1.4.1
 python-dotenv==0.13.0
